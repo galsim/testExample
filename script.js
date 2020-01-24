@@ -18,7 +18,7 @@ const user = {
 };
 
 const apiTemplatesSet1 = [
-   "/api/items/%id%/%name%/",
+   "/api/items/%id%/%name%",
    "/api/items/%id%/%role%",
    "/api/items/%id%/%salary%"
 ];
@@ -31,11 +31,13 @@ function getApiPath(obj, template) {
 
    let result = "";
 
-   Object.keys(obj).forEach(el => {
-      obj[el] = String.prototype.replace.call(obj[el], /\ /g, '%20')
+   result = template.split('/').map(el => {
+      if (el.indexOf('%') >= 0) {
+         return String.prototype.replace.call( obj[ el.replace( /\%/g , '') ],  /\ /g, '%20') 
+      } else {
+         return el
+      } 
    })
-
-   result = template.split('/').map(el => el.indexOf('%') >= 0 ? obj[ el.replace( /\%/g , '') ] : el)
 
    return result.join('/');
 }
