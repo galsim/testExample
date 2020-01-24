@@ -33,13 +33,13 @@ function getApiPath(obj, template) {
 
    result = template.split('/').map(el => {
       if (el.indexOf('%') >= 0) {
-         return String.prototype.replace.call( obj[ el.replace( /\%/g , '') ],  /\ /g, '%20') 
+         return obj[ el.replace( /\%/g , '') ]
       } else {
          return el
       } 
    })
 
-   return result.join('/');
+   return encodeURI(result.join('/'));
 }
 
 console.log(JSON.stringify(apiPathes));
